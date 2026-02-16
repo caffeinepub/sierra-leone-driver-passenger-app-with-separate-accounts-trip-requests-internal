@@ -52,6 +52,29 @@ actor {
     longitude : ?Float;
   };
 
+  // Diamond Assessment Types
+  public type DiamondRecord = {
+    id : Nat;
+    owner : Principal;
+    createdAt : Time.Time;
+    photoUrl : ?Text;
+    carat : ?Float;
+    estimatedValue : ?Nat;
+    notes : Text;
+  };
+
+  public type DiamondRecordInput = {
+    photoUrl : ?Text;
+    carat : ?Float;
+    estimatedValue : ?Nat;
+    notes : Text;
+  };
+
+  public type BuyerPlatform = {
+    name : Text;
+    url : Text;
+  };
+
   // Earnings and Payouts
   public type PayoutStatus = {
     #requested;
@@ -101,14 +124,36 @@ actor {
   include MixinAuthorization(accessControlState);
 
   // Persistent State
+  var nextDiamondId = 1;
   var nextTripId = 1;
   var nextPayoutId = 1;
 
+  let diamondRecords = Map.empty<Nat, DiamondRecord>();
   let users = Map.empty<Principal, UserProfile>();
   let activeTrips = Map.empty<Nat, TripRequest>();
   let tripHistory = List.empty<TripRequest>();
   let driverEarnings = Map.empty<Principal, Nat>();
   let payoutRequests = Map.empty<Nat, PayoutRequest>();
+
+  // Buyer Platforms (hardcoded for now)
+  let buyerPlatforms = [
+    {
+      name = "Blue Nile";
+      url = "https://www.bluenile.com";
+    },
+    {
+      name = "James Allen";
+      url = "https://www.jamesallen.com";
+    },
+    {
+      name = "Etsy";
+      url = "https://www.etsy.com";
+    },
+    {
+      name = "WP Diamonds";
+      url = "https://www.wpdiamonds.com";
+    },
+  ];
 
   // User Management
   public shared ({ caller }) func registerUser(accountType : AccountType, fullName : Text, phone : Text) : async () {
@@ -469,6 +514,115 @@ actor {
       case (?trip) {
         assertTripBelongsToUser(caller, trip);
         ?trip;
+      };
+    };
+  };
+
+  // Diamond Assessment (Backend only)
+  public shared ({ caller }) func createDiamondRecord(input : DiamondRecordInput) : async Nat {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Must be authenticated to create a diamond record");
+    };
+
+    let diamondId = nextDiamondId;
+    nextDiamondId += 1;
+
+    let newRecord : DiamondRecord = {
+      id = diamondId;
+      owner = caller;
+      createdAt = Time.now();
+      photoUrl = input.photoUrl;
+      carat = input.carat;
+      estimatedValue = input.estimatedValue;
+      notes = input.notes;
+    };
+
+    diamondRecords.add(diamondId, newRecord);
+    diamondId;
+  };
+
+  public query ({ caller }) func getDiamondRecord(recordId : Nat) : async ?DiamondRecord {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Must be authenticated to view your records");
+    };
+
+    switch (diamondRecords.get(recordId)) {
+      case (null) { null };
+      case (?record) {
+        if (record.owner == caller or AccessControl.isAdmin(accessControlState, caller)) {
+          ?record;
+        } else {
+          null;
+        };
+      };
+    };
+  };
+
+  public shared ({ caller }) func updateDiamondRecord(recordId : Nat, input : DiamondRecordInput) : async () {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Must be authenticated to update your records");
+    };
+
+    switch (diamondRecords.get(recordId)) {
+      case (null) { Runtime.trap("Diamond record not found") };
+      case (?record) {
+        if (record.owner != caller) {
+          Runtime.trap("Unauthorized: Only the owner can update this record");
+        };
+
+        let updatedRecord : DiamondRecord = {
+          record with
+          photoUrl = input.photoUrl;
+          carat = input.carat;
+          estimatedValue = input.estimatedValue;
+          notes = input.notes;
+        };
+
+        diamondRecords.add(recordId, updatedRecord);
+      };
+    };
+  };
+
+  public query ({ caller }) func getMyDiamondRecords() : async [DiamondRecord] {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Must be authenticated to view your records");
+    };
+    diamondRecords.values().toArray().filter<DiamondRecord>(
+      func(record) { record.owner == caller }
+    );
+  };
+
+  public query ({ caller }) func getBuyerPlatforms() : async [BuyerPlatform] {
+    buyerPlatforms;
+  };
+
+  public query ({ caller }) func generateDiamondSummary(recordId : Nat) : async ?Text {
+    if (not (AccessControl.hasPermission(accessControlState, caller, #user))) {
+      Runtime.trap("Unauthorized: Must be authenticated to generate summaries");
+    };
+
+    switch (diamondRecords.get(recordId)) {
+      case (null) { null };
+      case (?record) {
+        if (record.owner != caller and not AccessControl.isAdmin(accessControlState, caller)) {
+          Runtime.trap("Unauthorized: Only the owner can generate a summary for this record");
+        };
+
+        let summary = switch (record.carat, record.estimatedValue) {
+          case (null, null) {
+            "Diamond Record ID " # record.id.toText() # " with no details available";
+          };
+          case (?carat, null) {
+            "Diamond Record ID " # record.id.toText() # " with carat: " # Float.toText(carat) # " has an undetermined value";
+          };
+          case (null, ?value) {
+            "Diamond Record ID " # record.id.toText() # " with unknown carat has an estimated value of " # value.toText();
+          };
+          case (?carat, ?value) {
+            "Diamond Record ID " # record.id.toText() # " with carat: " # Float.toText(carat) # " has an estimated value of " # value.toText();
+          };
+        };
+        ?summary;
       };
     };
   };

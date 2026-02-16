@@ -1,22 +1,166 @@
 {
   "kind": "implementation_plan",
   "version": "1.0",
-  "title": "Add Developer Story section to Credits page",
+  "title": "Diamond Scout — frontend pivot to diamond assessment and buyer connections",
   "requirements": [
     {
-      "id": "REQ-7",
-      "summary": "Add a clearly labeled Developer Story section to the existing Credits page with the required Henry English and Uber-style format messaging while preserving existing credits text.",
+      "id": "REQ-10",
+      "summary": "Add authenticated Diamonds UI for creating, listing, and viewing the user’s diamond assessment records using the existing actor + React Query pattern.",
       "acceptanceCriteria": [
-        "On the Credits page, a new section titled \"Developer Story\" is visible to all users.",
-        "The Developer Story text explicitly includes: \"Henry English\" and describes him as \"the founder and technical manager\".",
-        "The Developer Story text explicitly communicates that he \"believes in an Uber-style format\" (wording may be lightly edited for grammar, but meaning must be preserved).",
-        "Existing Credits requirements remain intact (the page still names \"Henry English\" and includes the phrase \"A Sierra Leone Living Legend\")."
+        "The app includes a new navigation destination (separate from the existing trip/payout/profile/credits views) for “Diamonds” or equivalent.",
+        "Users can create a new diamond record via a form and see it appear in a “My Diamonds” list.",
+        "Each diamond record has a detail view (or expandable card) showing carat and estimated value clearly labeled in English.",
+        "Frontend uses the existing actor + React Query approach to call the new backend APIs."
       ],
       "file_operations": [
         {
-          "path": "frontend/src/pages/CreditsPage.tsx",
+          "path": "frontend/src/hooks/useQueries.ts",
           "operation": "modify",
-          "description": "Within the existing Credits page layout, add a new, clearly labeled \"Developer Story\" section containing user-facing English text stating that Henry English is the founder and technical manager of the app and that he believes in an Uber-style format, while preserving existing visible credits content (including \"Henry English\" and \"A Sierra Leone Living Legend\"). Use existing shadcn-ui Card primitives already used on the page for consistent styling; verify the component's usage instructions before implementing."
+          "description": "Add React Query hooks for diamond assessments (list my records, fetch one record, create, update) using the existing actor from useActor; ensure query keys and invalidation support the My Diamonds list and details view."
+        },
+        {
+          "path": "frontend/src/components/diamonds/DiamondsPanel.tsx",
+          "operation": "create",
+          "description": "Create a Diamonds panel that shows a “My Diamonds” list, a create-new diamond form, and an in-panel detail view or expandable cards displaying carat and Estimated value in English."
+        },
+        {
+          "path": "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+          "operation": "create",
+          "description": "Create a diamond record create/edit form (notes required; carat optional; estimated value optional) wired to the diamond create/update React Query mutations and showing clear English field labels and validation messaging."
+        },
+        {
+          "path": "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+          "operation": "create",
+          "description": "Create a reusable card to render a diamond record summary and a clearly labeled detail section (Carat, Estimated value, Notes, Created date) suitable for use in lists and detail contexts."
+        },
+        {
+          "path": "frontend/src/components/dashboard/Dashboard.tsx",
+          "operation": "modify",
+          "description": "Wire the new Diamonds destination into the authenticated view-switching logic by adding a new view state and rendering the DiamondsPanel when selected."
+        },
+        {
+          "path": "frontend/src/components/layout/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Add a new authenticated navigation item for “Diamonds” (separate from existing trip/payout/profile/credits), and ensure selection styling works with the updated currentView values."
+        }
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "summary": "Add a safe, user-transparent client-side-only photo attachment and observation details UX that labels outputs as estimates and avoids authenticity claims.",
+      "acceptanceCriteria": [
+        "Users can optionally select/upload an image in the UI for a diamond record; the UI indicates the image is stored/used on the client side for viewing only (not as proof of authenticity).",
+        "Any computed or displayed value is labeled as an “Estimated value” and does not state or imply guaranteed diamond authenticity.",
+        "No external AI/LLM or third-party diamond verification service is required for this feature to function."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/diamonds/DiamondPhotoPicker.tsx",
+          "operation": "create",
+          "description": "Create a client-side-only photo picker component that lets users select an image, previews it locally, and displays clear English disclosure text that the image is only stored/used on the client for viewing and is not proof of authenticity."
+        },
+        {
+          "path": "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+          "operation": "modify",
+          "description": "Integrate the DiamondPhotoPicker into the diamond create/edit flow; persist the chosen photo locally (e.g., browser storage) and ensure the UI copy avoids authenticity claims and labels any outputs as estimates."
+        },
+        {
+          "path": "frontend/src/components/diamonds/DiamondsPanel.tsx",
+          "operation": "modify",
+          "description": "Ensure the diamonds list/detail UI consistently labels value output as “Estimated value” and includes an English disclaimer that results are user-entered and/or estimates (not verification)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "summary": "Add Buyers section to view a curated buyer platform list from the backend, open links in a new tab, and allow copying a plain-English diamond summary for contacting buyers.",
+      "acceptanceCriteria": [
+        "Users can access a “Buyers” (or similar) section from the main authenticated navigation.",
+        "The buyer platform list is stored and served by the backend (so it can be updated later), and rendered by the frontend.",
+        "Clicking a buyer platform opens the external URL in a new tab.",
+        "The diamond detail view includes a “Copy summary” (or similar) action that copies a plain-English summary including carat and estimated value (when available)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Add React Query hooks for retrieving buyer platforms (and any supporting capability used by the UI for generating a diamond summary), using the existing actor pattern and proper loading/error states."
+        },
+        {
+          "path": "frontend/src/components/buyers/BuyersPanel.tsx",
+          "operation": "create",
+          "description": "Create a Buyers panel that fetches the curated buyer platform list and renders name + external URL with actions that open in a new tab (with safe rel attributes) and clear English UI labels."
+        },
+        {
+          "path": "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+          "operation": "modify",
+          "description": "Add a “Copy summary” action on the diamond detail rendering that copies a plain-English summary including carat and Estimated value when available; prefer using the backend capability for generating the summary when present, with a frontend fallback composition if needed."
+        },
+        {
+          "path": "frontend/src/components/dashboard/Dashboard.tsx",
+          "operation": "modify",
+          "description": "Wire the new Buyers destination into the authenticated view-switching logic by adding a new view state and rendering the BuyersPanel when selected."
+        },
+        {
+          "path": "frontend/src/components/layout/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Add a new authenticated navigation item for “Buyers” and ensure it coexists with existing Profile and Credits access."
+        }
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "summary": "Update authenticated header + public welcome branding to diamond-focused name/tagline and wire required generated imagery, while keeping Credits content intact.",
+      "acceptanceCriteria": [
+        "The header app name/logo and the AuthWelcome hero section no longer present the app as “SL GPS”/transport-focused and instead present diamond assessment/buyer discovery branding.",
+        "Main navigation includes the new Diamonds/Buyers destinations without breaking existing Profile and Credits access.",
+        "Credits page still contains the existing required Henry English text and the “Developer Story” section."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/public/assets/generated/diamond-logo.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated light-background Diamond Scout logo asset at the required path for direct frontend referencing."
+        },
+        {
+          "path": "frontend/public/assets/generated/diamond-logo-dark.dim_512x512.png",
+          "operation": "create",
+          "description": "Add the generated dark-background Diamond Scout logo asset at the required path for direct frontend referencing."
+        },
+        {
+          "path": "frontend/public/assets/generated/diamond-hero.dim_1600x600.png",
+          "operation": "create",
+          "description": "Add the generated wide diamond hero banner asset at the required path for direct frontend referencing."
+        },
+        {
+          "path": "frontend/public/assets/generated/diamond-icon-1.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated diamond UI icon asset at the required path for direct frontend referencing."
+        },
+        {
+          "path": "frontend/public/assets/generated/diamond-icon-2.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated diamond UI icon asset at the required path for direct frontend referencing."
+        },
+        {
+          "path": "frontend/public/assets/generated/diamond-icon-3.dim_128x128.png",
+          "operation": "create",
+          "description": "Add the generated diamond UI icon asset at the required path for direct frontend referencing."
+        },
+        {
+          "path": "frontend/src/components/layout/AppHeader.tsx",
+          "operation": "modify",
+          "description": "Update header branding to Diamond Scout (name/tagline) and replace the transport logo reference with frontend/public/assets/generated/diamond-logo.dim_512x512.png (and optionally adapt for dark mode with diamond-logo-dark.dim_512x512.png)."
+        },
+        {
+          "path": "frontend/src/components/auth/AuthWelcome.tsx",
+          "operation": "modify",
+          "description": "Update the public welcome screen branding (name, tagline, and feature bullets) to diamond assessment and buyer discovery; replace the hero image reference with frontend/public/assets/generated/diamond-hero.dim_1600x600.png and the logo with frontend/public/assets/generated/diamond-logo.dim_512x512.png. Ensure all text remains English and does not claim authenticity verification."
+        },
+        {
+          "path": "frontend/src/components/dashboard/Dashboard.tsx",
+          "operation": "modify",
+          "description": "Ensure the updated navigation (Diamonds/Buyers) is available in the authenticated experience without breaking existing Profile and Credits access, and keep the CreditsPage wiring unchanged to preserve its content."
         }
       ]
     }

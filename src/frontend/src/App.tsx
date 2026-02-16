@@ -5,6 +5,7 @@ import AuthWelcome from './components/auth/AuthWelcome';
 import RoleSelectCard from './components/profile/RoleSelectCard';
 import Dashboard from './components/dashboard/Dashboard';
 import AppLayout from './components/layout/AppLayout';
+import { Toaster } from './components/ui/sonner';
 
 export default function App() {
   const { identity, loginStatus } = useInternetIdentity();
@@ -24,7 +25,12 @@ export default function App() {
 
   // Show welcome/login screen if not authenticated
   if (!isAuthenticated) {
-    return <AuthWelcome />;
+    return (
+      <>
+        <AuthWelcome />
+        <Toaster />
+      </>
+    );
   }
 
   // Show loading while fetching profile
@@ -41,18 +47,24 @@ export default function App() {
   
   if (showProfileSetup) {
     return (
-      <div className="min-h-screen bg-background">
-        <RoleSelectCard />
-      </div>
+      <>
+        <div className="min-h-screen bg-background">
+          <RoleSelectCard />
+        </div>
+        <Toaster />
+      </>
     );
   }
 
   // Show main dashboard if authenticated and has profile
   if (userProfile) {
     return (
-      <AppLayout>
-        <Dashboard userProfile={userProfile} />
-      </AppLayout>
+      <>
+        <AppLayout>
+          <Dashboard userProfile={userProfile} />
+        </AppLayout>
+        <Toaster />
+      </>
     );
   }
 

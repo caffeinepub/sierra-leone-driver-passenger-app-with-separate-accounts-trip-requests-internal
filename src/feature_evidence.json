@@ -2,10 +2,15 @@
   "kind": "feature_evidence_report",
   "features": [
     {
-      "featureId": "feature-update-the-existing-credits-page-to-include-a-clearly-labeled-developer-story-section-with-user-facing-text-in-english-that-states-henry-english-is-the-founder-and-technical-manager-of-the-app-and-that-he-believes-in-an-uber-style-format",
-      "featureTitle": "Update the existing Credits page to include a clearly labeled \"Developer Story\" section with user-facing text in English that states: Henry English is the founder and technical manager of the app and that he believes in an Uber-style format.",
+      "featureId": "feature-add-a-diamond-assessment-ui-flow-where-authenticated-users-can-create-a-new-diamond-record-enter-carat-and-any-other-inputs-needed-for-valuation-and-see-the-resulting-carat-and-estimated-value-displayed-on-screen-in-english",
+      "featureTitle": "Add a diamond assessment UI flow where authenticated users can create a new diamond record, enter carat and any other inputs needed for valuation, and see the resulting carat and estimated value displayed on-screen in English.",
       "files": [
-        "frontend/src/pages/CreditsPage.tsx"
+        "frontend/src/components/dashboard/Dashboard.tsx",
+        "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+        "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+        "frontend/src/components/diamonds/DiamondsPanel.tsx",
+        "frontend/src/components/layout/AppHeader.tsx",
+        "frontend/src/hooks/useQueries.ts"
       ],
       "components": [
         "authorization@4.0.0",
@@ -16,7 +21,72 @@
         "github-export-icp-cli@1.0.0"
       ],
       "testIds": [
-        "REQ-7"
+        "REQ-10"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-implement-a-safe-user-transparent-detection-verification-experience-that-does-not-claim-physical-authenticity-allow-users-to-attach-an-optional-diamond-photo-client-side-only-and-capture-observation-details-and-label-any-outputs-as-an-estimate-english-ui-copy",
+      "featureTitle": "Implement a safe, user-transparent “detection/verification” experience that does not claim physical authenticity: allow users to attach an optional diamond photo (client-side only) and capture observation details, and label any outputs as an estimate (English UI copy).",
+      "files": [
+        "frontend/src/components/diamonds/DiamondPhotoPicker.tsx",
+        "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+        "frontend/src/components/diamonds/DiamondsPanel.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-11"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-add-a-buyer-connection-feature-that-lets-users-see-a-curated-list-of-buyer-platforms-name-external-url-and-open-them-and-optionally-export-share-a-diamond-record-summary-suitable-for-contacting-buyers-english-text",
+      "featureTitle": "Add a buyer connection feature that lets users see a curated list of buyer platforms (name + external URL) and open them, and optionally export/share a diamond record summary suitable for contacting buyers (English text).",
+      "files": [
+        "frontend/src/components/buyers/BuyersPanel.tsx",
+        "frontend/src/components/dashboard/Dashboard.tsx",
+        "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+        "frontend/src/components/layout/AppHeader.tsx",
+        "frontend/src/hooks/useQueries.ts"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-12"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-update-app-branding-in-the-authenticated-header-and-the-public-welcome-screen-to-reflect-the-diamond-focused-app-name-tagline-and-generated-imagery-while-keeping-the-existing-credits-page-content-in-english-intact-including-henry-english-references",
+      "featureTitle": "Update app branding in the authenticated header and the public welcome screen to reflect the diamond-focused app (name, tagline, and generated imagery), while keeping the existing Credits page content in English intact (including Henry English references).",
+      "files": [
+        "frontend/src/components/auth/AuthWelcome.tsx",
+        "frontend/src/components/dashboard/Dashboard.tsx",
+        "frontend/src/components/layout/AppHeader.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-13"
       ],
       "confidence": "high"
     }

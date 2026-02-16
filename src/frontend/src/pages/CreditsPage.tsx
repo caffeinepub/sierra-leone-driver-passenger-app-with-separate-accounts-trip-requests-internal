@@ -14,7 +14,7 @@ export default function CreditsPage() {
           <div>
             <CardTitle className="text-3xl mb-2">Developer Credits</CardTitle>
             <CardDescription className="text-base">
-              Meet the creator of SL GPS
+              Meet the creator behind the platform
             </CardDescription>
           </div>
         </CardHeader>
@@ -41,11 +41,11 @@ export default function CreditsPage() {
               <div>
                 <h3 className="font-semibold mb-1">Developer Story</h3>
                 <p className="text-sm text-muted-foreground">
-                  Henry English is the founder and technical manager of SL GPS. With a vision 
-                  to revolutionize transportation in Sierra Leone, Henry believes in an Uber-style 
-                  format that connects drivers and passengers seamlessly. His commitment to 
+                  Henry English is the founder and technical manager of this platform. With a vision 
+                  to revolutionize how people connect and transact in Sierra Leone, Henry believes in an Uber-style 
+                  format that brings transparency and accessibility to various markets. His commitment to 
                   leveraging modern technology and blockchain innovation drives the platform's 
-                  mission to provide accessible and reliable transportation solutions.
+                  mission to provide secure and reliable solutions for the people of Sierra Leone.
                 </p>
               </div>
             </div>
@@ -55,8 +55,8 @@ export default function CreditsPage() {
               <div>
                 <h3 className="font-semibold mb-1">About This Application</h3>
                 <p className="text-sm text-muted-foreground">
-                  SL GPS is a transportation platform designed to connect drivers and passengers 
-                  across Sierra Leone. Built with modern web technologies and powered by the 
+                  Diamond Scout is a platform designed to help users document their diamond collections 
+                  and connect with verified buyers. Built with modern web technologies and powered by the 
                   Internet Computer blockchain for secure, decentralized authentication.
                 </p>
               </div>
@@ -67,9 +67,9 @@ export default function CreditsPage() {
               <div>
                 <h3 className="font-semibold mb-1">Mission</h3>
                 <p className="text-sm text-muted-foreground">
-                  To provide accessible, reliable transportation solutions for the people of 
-                  Sierra Leone, empowering both drivers and passengers with a platform that 
-                  serves their needs.
+                  To provide accessible, transparent tools for the people of Sierra Leone, 
+                  empowering individuals with platforms that serve their needs and connect them 
+                  with opportunities in the global marketplace.
                 </p>
               </div>
             </div>

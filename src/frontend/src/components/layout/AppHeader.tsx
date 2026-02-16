@@ -3,11 +3,11 @@ import { useGetCallerUserProfile } from '../../hooks/useQueries';
 import LoginButton from '../auth/LoginButton';
 import { Button } from '../ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '../ui/sheet';
-import { Menu, MapPin, User, Wallet, Award } from 'lucide-react';
+import { Menu, Gem, User, Award, ShoppingBag } from 'lucide-react';
 import { AccountType } from '../../backend';
 
 interface AppHeaderProps {
-  onNavigate?: (view: 'dashboard' | 'profile' | 'payouts' | 'credits') => void;
+  onNavigate?: (view: 'diamonds' | 'buyers' | 'profile' | 'credits') => void;
   currentView?: string;
 }
 
@@ -15,17 +15,15 @@ export default function AppHeader({ onNavigate, currentView }: AppHeaderProps) {
   const { data: userProfile } = useGetCallerUserProfile();
   const [isOpen, setIsOpen] = useState(false);
 
-  const isDriver = userProfile?.accountType === AccountType.driver;
-
-  const handleNavClick = (view: 'dashboard' | 'profile' | 'payouts' | 'credits') => {
+  const handleNavClick = (view: 'diamonds' | 'buyers' | 'profile' | 'credits') => {
     onNavigate?.(view);
     setIsOpen(false);
   };
 
   const navItems = [
-    { id: 'dashboard', label: 'Dashboard', icon: MapPin },
+    { id: 'diamonds', label: 'My Diamonds', icon: Gem },
+    { id: 'buyers', label: 'Buyers', icon: ShoppingBag },
     { id: 'profile', label: 'Profile', icon: User },
-    ...(isDriver ? [{ id: 'payouts', label: 'Earnings', icon: Wallet }] : []),
     { id: 'credits', label: 'Credits', icon: Award },
   ];
 
@@ -36,12 +34,12 @@ export default function AppHeader({ onNavigate, currentView }: AppHeaderProps) {
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img 
-              src="/assets/generated/sl-gps-logo.dim_512x512.png" 
-              alt="SL GPS" 
+              src="/assets/generated/diamond-logo.dim_512x512.png" 
+              alt="Diamond Scout" 
               className="h-10 w-10 rounded-lg"
             />
             <div className="hidden sm:block">
-              <h1 className="text-xl font-bold">SL GPS</h1>
+              <h1 className="text-xl font-bold">Diamond Scout</h1>
               {userProfile && (
                 <p className="text-xs text-muted-foreground">
                   {userProfile.fullName}

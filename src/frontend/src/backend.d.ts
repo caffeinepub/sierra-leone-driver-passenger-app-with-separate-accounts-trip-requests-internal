@@ -12,7 +12,17 @@ export interface Location {
     description: string;
     longitude?: number;
 }
+export interface DiamondRecordInput {
+    carat?: number;
+    photoUrl?: string;
+    notes: string;
+    estimatedValue?: bigint;
+}
 export type Time = bigint;
+export interface BuyerPlatform {
+    url: string;
+    name: string;
+}
 export interface PayoutRequest {
     id: bigint;
     status: PayoutStatus;
@@ -32,6 +42,15 @@ export interface TripRequest {
     acceptedAt?: Time;
     driver?: Principal;
     pickupLocation: Location;
+}
+export interface DiamondRecord {
+    id: bigint;
+    owner: Principal;
+    carat?: number;
+    createdAt: Time;
+    photoUrl?: string;
+    notes: string;
+    estimatedValue?: bigint;
 }
 export interface UserProfile {
     fullName: string;
@@ -65,12 +84,17 @@ export interface backendInterface {
     assignCallerUserRole(user: Principal, role: UserRole): Promise<void>;
     cancelTrip(tripId: bigint): Promise<void>;
     completeTrip(tripId: bigint): Promise<void>;
+    createDiamondRecord(input: DiamondRecordInput): Promise<bigint>;
     createTripRequest(pickup: Location, dropoff: Location, fare: bigint): Promise<bigint>;
+    generateDiamondSummary(recordId: bigint): Promise<string | null>;
     getAllDrivers(): Promise<Array<[Principal, UserProfile]>>;
+    getBuyerPlatforms(): Promise<Array<BuyerPlatform>>;
     getCallerUserProfile(): Promise<UserProfile | null>;
     getCallerUserRole(): Promise<UserRole>;
+    getDiamondRecord(recordId: bigint): Promise<DiamondRecord | null>;
     getDriverEarnings(): Promise<bigint>;
     getDriverTrips(driver: Principal): Promise<Array<TripRequest>>;
+    getMyDiamondRecords(): Promise<Array<DiamondRecord>>;
     getOpenTrips(): Promise<Array<TripRequest>>;
     getPassengerTrips(passenger: Principal): Promise<Array<TripRequest>>;
     getPayoutHistory(): Promise<Array<PayoutRequest>>;
@@ -81,6 +105,7 @@ export interface backendInterface {
     registerUser(accountType: AccountType, fullName: string, phone: string): Promise<void>;
     requestPayout(amount: bigint): Promise<bigint>;
     saveCallerUserProfile(profile: UserProfile): Promise<void>;
+    updateDiamondRecord(recordId: bigint, input: DiamondRecordInput): Promise<void>;
     updatePayoutStatus(payoutId: bigint, newStatus: PayoutStatus): Promise<void>;
     updateProfile(fullName: string, phone: string): Promise<void>;
 }

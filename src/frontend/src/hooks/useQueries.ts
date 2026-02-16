@@ -1,7 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useActor } from './useActor';
 import { useInternetIdentity } from './useInternetIdentity';
-import type { UserProfile, TripRequest, Location, AccountType, PayoutRequest } from '../backend';
+import type { UserProfile, TripRequest, Location, AccountType, PayoutRequest, DiamondRecord, DiamondRecordInput, BuyerPlatform } from '../backend';
 
 // User Profile Hooks
 export function useGetCallerUserProfile() {
@@ -201,5 +201,85 @@ export function useRequestPayout() {
       queryClient.invalidateQueries({ queryKey: ['driverEarnings'] });
       queryClient.invalidateQueries({ queryKey: ['payoutHistory'] });
     },
+  });
+}
+
+// Diamond Assessment Hooks
+export function useGetMyDiamondRecords() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<DiamondRecord[]>({
+    queryKey: ['myDiamondRecords'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getMyDiamondRecords();
+    },
+    enabled: !!actor && !isFetching,
+  });
+}
+
+export function useGetDiamondRecord() {
+  const { actor, isFetching } = useActor();
+
+  return useMutation({
+    mutationFn: async (recordId: bigint) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.getDiamondRecord(recordId);
+    },
+  });
+}
+
+export function useCreateDiamondRecord() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (input: DiamondRecordInput) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.createDiamondRecord(input);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myDiamondRecords'] });
+    },
+  });
+}
+
+export function useUpdateDiamondRecord() {
+  const { actor } = useActor();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({ recordId, input }: { recordId: bigint; input: DiamondRecordInput }) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.updateDiamondRecord(recordId, input);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myDiamondRecords'] });
+    },
+  });
+}
+
+export function useGenerateDiamondSummary() {
+  const { actor } = useActor();
+
+  return useMutation({
+    mutationFn: async (recordId: bigint) => {
+      if (!actor) throw new Error('Actor not available');
+      return actor.generateDiamondSummary(recordId);
+    },
+  });
+}
+
+// Buyer Platforms Hooks
+export function useGetBuyerPlatforms() {
+  const { actor, isFetching } = useActor();
+
+  return useQuery<BuyerPlatform[]>({
+    queryKey: ['buyerPlatforms'],
+    queryFn: async () => {
+      if (!actor) return [];
+      return actor.getBuyerPlatforms();
+    },
+    enabled: !!actor && !isFetching,
   });
 }

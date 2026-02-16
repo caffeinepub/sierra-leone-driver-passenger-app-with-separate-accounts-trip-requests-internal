@@ -12,6 +12,22 @@ import type { Principal } from '@icp-sdk/core/principal';
 
 export type AccountType = { 'passenger' : null } |
   { 'driver' : null };
+export interface BuyerPlatform { 'url' : string, 'name' : string }
+export interface DiamondRecord {
+  'id' : bigint,
+  'owner' : Principal,
+  'carat' : [] | [number],
+  'createdAt' : Time,
+  'photoUrl' : [] | [string],
+  'notes' : string,
+  'estimatedValue' : [] | [bigint],
+}
+export interface DiamondRecordInput {
+  'carat' : [] | [number],
+  'photoUrl' : [] | [string],
+  'notes' : string,
+  'estimatedValue' : [] | [bigint],
+}
 export interface Location {
   'latitude' : [] | [number],
   'description' : string,
@@ -61,12 +77,17 @@ export interface _SERVICE {
   'assignCallerUserRole' : ActorMethod<[Principal, UserRole], undefined>,
   'cancelTrip' : ActorMethod<[bigint], undefined>,
   'completeTrip' : ActorMethod<[bigint], undefined>,
+  'createDiamondRecord' : ActorMethod<[DiamondRecordInput], bigint>,
   'createTripRequest' : ActorMethod<[Location, Location, bigint], bigint>,
+  'generateDiamondSummary' : ActorMethod<[bigint], [] | [string]>,
   'getAllDrivers' : ActorMethod<[], Array<[Principal, UserProfile]>>,
+  'getBuyerPlatforms' : ActorMethod<[], Array<BuyerPlatform>>,
   'getCallerUserProfile' : ActorMethod<[], [] | [UserProfile]>,
   'getCallerUserRole' : ActorMethod<[], UserRole>,
+  'getDiamondRecord' : ActorMethod<[bigint], [] | [DiamondRecord]>,
   'getDriverEarnings' : ActorMethod<[], bigint>,
   'getDriverTrips' : ActorMethod<[Principal], Array<TripRequest>>,
+  'getMyDiamondRecords' : ActorMethod<[], Array<DiamondRecord>>,
   'getOpenTrips' : ActorMethod<[], Array<TripRequest>>,
   'getPassengerTrips' : ActorMethod<[Principal], Array<TripRequest>>,
   'getPayoutHistory' : ActorMethod<[], Array<PayoutRequest>>,
@@ -77,6 +98,7 @@ export interface _SERVICE {
   'registerUser' : ActorMethod<[AccountType, string, string], undefined>,
   'requestPayout' : ActorMethod<[bigint], bigint>,
   'saveCallerUserProfile' : ActorMethod<[UserProfile], undefined>,
+  'updateDiamondRecord' : ActorMethod<[bigint, DiamondRecordInput], undefined>,
   'updatePayoutStatus' : ActorMethod<[bigint, PayoutStatus], undefined>,
   'updateProfile' : ActorMethod<[string, string], undefined>,
 }

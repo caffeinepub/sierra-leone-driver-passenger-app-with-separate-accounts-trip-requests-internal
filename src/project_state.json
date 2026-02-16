@@ -1,10 +1,11 @@
 {
   "schemaVersion": "1.0.0",
-  "projectStateVersion": 5,
-  "summary": "Build a Sierra Leone GPS/map app for drivers and passengers with separate account types, ride/map functionality, payouts, and an in-app document crediting developer Henry English.",
+  "projectStateVersion": 7,
+  "summary": "Pivot to a diamond-focused app that can detect diamonds, estimate/display value and carat, and connect with external buyer platforms.",
   "architectural_notes": [],
   "known_issues": [],
   "isFixRequest": false,
+  "imageRequirements": "## Required Images\n- Faceted diamond app logo on light background (diamond-logo.dim_512x512.png)\n- Faceted diamond app logo on dark background (diamond-logo-dark.dim_512x512.png)\n- Wide hero banner with close-up faceted diamond and subtle geometric pattern (diamond-hero.dim_1600x600.png)\n- Small set of 3 UI-safe diamond icons (diamond-icon-1.dim_128x128.png, diamond-icon-2.dim_128x128.png, diamond-icon-3.dim_128x128.png)",
   "existing_features": [
     {
       "id": "feature-implement-internet-identity-sign-in-and-let-each-authenticated-user-choose-and-persist-an-account-type-driver-or-passenger-the-app-must-maintain-separate-profile-details-for-each-type-passenger-full-name-phone-driver-full-name-phone-vehicle-type-vehicle-plate-number-users-must-be-able-to-view-and-edit-their-own-profile-after-selecting-a-role",
@@ -61,6 +62,38 @@
         "REQ-7"
       ],
       "version": 1
+    },
+    {
+      "id": "feature-add-a-diamond-assessment-ui-flow-where-authenticated-users-can-create-a-new-diamond-record-enter-carat-and-any-other-inputs-needed-for-valuation-and-see-the-resulting-carat-and-estimated-value-displayed-on-screen-in-english",
+      "title": "Add a diamond assessment UI flow where authenticated users can create a new diamond record, enter carat and any other inputs needed for valuation, and see the resulting carat and estimated value displayed on-screen in English.",
+      "reqIds": [
+        "REQ-10"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-safe-user-transparent-detection-verification-experience-that-does-not-claim-physical-authenticity-allow-users-to-attach-an-optional-diamond-photo-client-side-only-and-capture-observation-details-and-label-any-outputs-as-an-estimate-english-ui-copy",
+      "title": "Implement a safe, user-transparent “detection/verification” experience that does not claim physical authenticity: allow users to attach an optional diamond photo (client-side only) and capture observation details, and label any outputs as an estimate (English UI copy).",
+      "reqIds": [
+        "REQ-11"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-buyer-connection-feature-that-lets-users-see-a-curated-list-of-buyer-platforms-name-external-url-and-open-them-and-optionally-export-share-a-diamond-record-summary-suitable-for-contacting-buyers-english-text",
+      "title": "Add a buyer connection feature that lets users see a curated list of buyer platforms (name + external URL) and open them, and optionally export/share a diamond record summary suitable for contacting buyers (English text).",
+      "reqIds": [
+        "REQ-12"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-app-branding-in-the-authenticated-header-and-the-public-welcome-screen-to-reflect-the-diamond-focused-app-name-tagline-and-generated-imagery-while-keeping-the-existing-credits-page-content-in-english-intact-including-henry-english-references",
+      "title": "Update app branding in the authenticated header and the public welcome screen to reflect the diamond-focused app (name, tagline, and generated imagery), while keeping the existing Credits page content in English intact (including Henry English references).",
+      "reqIds": [
+        "REQ-13"
+      ],
+      "version": 1
     }
   ],
   "new_feature_requests": [
@@ -92,6 +125,40 @@
       "id": "AR-5",
       "summary": "Add a developer story/about section stating Henry English is the founder and technical manager and that he believes in an Uber-style format",
       "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "Build a diamond detection feature to identify/verify diamonds within the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Display diamond carat and estimated value in the app",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Integrate/connect with other buyer platforms so users can find/connect with buyers",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-9",
+      "summary": "Add backend data models and persistence for a per-user diamond assessment feature, including storing diamond records and computed/entered results (at minimum: record id, owner Principal, createdAt timestamp, optional photo reference string, carat (optional), estimated value (optional), and free-text notes).",
+      "reqIds": [
+        "REQ-8"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-10",
+      "summary": "Implement backend APIs to create, list, view, and update the caller’s diamond assessment records.",
+      "reqIds": [
+        "REQ-9"
+      ],
       "status": "pending"
     }
   ],

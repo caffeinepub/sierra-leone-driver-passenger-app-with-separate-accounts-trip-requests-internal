@@ -1,15 +1,15 @@
 {
   "frontend/src/index.css": "Global styles with Sierra Leone-inspired green/gold OKLCH color palette for light and dark modes, avoiding blue/purple dominance, plus utility classes for consistent page layouts.",
-  "frontend/src/App.tsx": "Main application component managing authentication flow, profile setup, and dashboard routing based on Internet Identity login state and user profile existence.",
-  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including user profiles, trip management (create, accept, cancel, complete), and driver earnings/payouts with proper cache invalidation.",
-  "frontend/src/components/auth/AuthWelcome.tsx": "Landing page with hero image, logo, and login button for unauthenticated users, showcasing the app's purpose for both drivers and passengers.",
+  "frontend/src/App.tsx": "Main application component managing authentication flow, profile setup, and dashboard routing with Toaster component for notifications.",
+  "frontend/src/hooks/useQueries.ts": "React Query hooks for all backend operations including user profiles, trip management, earnings/payouts, diamond assessment records (create, list, update, generate summary), and buyer platforms with proper cache invalidation.",
+  "frontend/src/components/auth/AuthWelcome.tsx": "Landing page with diamond-focused hero image, logo, and login button showcasing diamond assessment and buyer connection features for unauthenticated users.",
   "frontend/src/components/auth/LoginButton.tsx": "Reusable Internet Identity login/logout button with loading states and query cache clearing on logout.",
   "frontend/src/components/profile/RoleSelectCard.tsx": "Two-step onboarding flow for new users to select their role (Driver/Passenger) and complete profile with role-specific fields (vehicle info for drivers).",
   "frontend/src/components/profile/ProfileForm.tsx": "Profile view and edit component displaying user information with role badge and allowing updates to name and phone number.",
   "frontend/src/components/layout/AppLayout.tsx": "Main layout wrapper providing consistent header, content area, and footer structure for all authenticated screens.",
-  "frontend/src/components/layout/AppHeader.tsx": "Sticky header with logo, user name, role-aware navigation (Dashboard, Profile, Earnings for drivers, Credits), and responsive mobile menu.",
+  "frontend/src/components/layout/AppHeader.tsx": "Sticky header with Diamond Scout branding, logo, user name, and navigation for Diamonds, Buyers, Profile, and Credits with responsive mobile menu.",
   "frontend/src/components/layout/AppFooter.tsx": "Footer with copyright, developer attribution, and Caffeine.ai link with UTM tracking parameters.",
-  "frontend/src/components/dashboard/Dashboard.tsx": "Main dashboard container managing view state (dashboard/profile/payouts/credits) and rendering role-specific content for drivers vs passengers.",
+  "frontend/src/components/dashboard/Dashboard.tsx": "Main dashboard container managing view state (diamonds/buyers/profile/credits) and rendering the appropriate panel based on user selection.",
   "frontend/src/components/dashboard/PassengerDashboard.tsx": "Passenger-specific dashboard showing trip request form and list of passenger's own trips.",
   "frontend/src/components/dashboard/DriverDashboard.tsx": "Driver-specific dashboard showing available open trips to accept and list of driver's accepted trips.",
   "frontend/src/components/trips/TripRequestForm.tsx": "Form for passengers to create trip requests with pickup/dropoff locations (description + optional coordinates) and fare amount.",
@@ -20,5 +20,10 @@
   "frontend/src/components/payouts/PayoutRequestForm.tsx": "Form for drivers to request payouts with balance validation and internal accounting disclaimer.",
   "frontend/src/components/payouts/PayoutHistoryTable.tsx": "Table showing driver's payout request history with status badges (Requested/Approved/Rejected/Paid).",
   "frontend/src/components/payouts/DriverPayoutsPanel.tsx": "Driver payouts section combining earnings card, payout request form, and payout history table.",
-  "frontend/src/pages/CreditsPage.tsx": "Credits page prominently featuring developer Henry English with \"A Sierra Leone Living Legend\" phrase, new Developer Story section describing him as founder and technical manager who believes in Uber-style format, plus app mission statement."
+  "frontend/src/pages/CreditsPage.tsx": "Credits page featuring developer Henry English with \"A Sierra Leone Living Legend\" phrase, Developer Story section, and updated mission statement for the diamond platform.",
+  "frontend/src/components/diamonds/DiamondsPanel.tsx": "Diamond records list panel showing user's diamond collection with add new record form, empty state, and grid of diamond cards with disclaimer about estimates.",
+  "frontend/src/components/diamonds/DiamondRecordForm.tsx": "Form for creating diamond records with photo picker, notes (required), optional carat and estimated value fields, with clear labeling that values are user estimates.",
+  "frontend/src/components/diamonds/DiamondPhotoPicker.tsx": "Client-side photo picker component that stores images locally in browser with clear disclosure that photos are for viewing only and not proof of authenticity.",
+  "frontend/src/components/diamonds/DiamondRecordCard.tsx": "Reusable card displaying diamond record summary with photo, carat, estimated value, notes, creation date, and copy summary button for sharing with buyers.",
+  "frontend/src/components/buyers/BuyersPanel.tsx": "Buyer platforms list panel showing curated diamond buyer marketplaces with external links opening in new tabs and instructions for connecting with buyers."
 }

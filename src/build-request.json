@@ -1,39 +1,140 @@
 {
   "kind": "build_request",
-  "title": "Add a developer story to the Credits page",
+  "title": "Pivot app to diamond assessment (carat/value) and buyer connections",
+  "projectName": "Diamond Scout",
   "priority": "normal",
   "requirements": [
     {
-      "id": "REQ-7",
-      "text": "Update the existing Credits page to include a clearly labeled \"Developer Story\" section with user-facing text in English that states: Henry English is the founder and technical manager of the app and that he believes in an Uber-style format.",
-      "target": "frontend",
+      "id": "REQ-8",
+      "text": "Add backend data models and persistence for a per-user diamond assessment feature, including storing diamond records and computed/entered results (at minimum: record id, owner Principal, createdAt timestamp, optional photo reference string, carat (optional), estimated value (optional), and free-text notes).",
+      "target": "backend",
       "source": {
         "messageIds": [
-          "msg-4"
+          "msg-1"
         ],
         "quotes": [
-          "Yes I want me the developer story behind the app that say Henry english the founder and technical manager who believes in uber format"
+          "Build app for diamond 💎 and to detect it and show it value and caret and connect with other platform for buyersJust"
         ]
       },
       "acceptanceCriteria": [
-        "On the Credits page, a new section titled \"Developer Story\" is visible to all users.",
-        "The Developer Story text explicitly includes: \"Henry English\" and describes him as \"the founder and technical manager\".",
-        "The Developer Story text explicitly communicates that he \"believes in an Uber-style format\" (wording may be lightly edited for grammar, but meaning must be preserved).",
-        "Existing Credits requirements remain intact (the page still names \"Henry English\" and includes the phrase \"A Sierra Leone Living Legend\")."
+        "Backend exposes a stable, persistent store of diamond assessment records keyed by id and associated to the caller Principal.",
+        "Diamond assessment records can be created and retrieved after a canister upgrade (add migration only if required by state changes).",
+        "The backend prevents users from reading or modifying diamond records belonging to other principals."
+      ]
+    },
+    {
+      "id": "REQ-9",
+      "text": "Implement backend APIs to create, list, view, and update the caller’s diamond assessment records.",
+      "target": "backend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build app for diamond 💎 and to detect it and show it value and caret and connect with other platform for buyersJust"
+        ]
+      },
+      "acceptanceCriteria": [
+        "There are authenticated (Internet Identity) endpoints to: create a record, list caller records, fetch a single record by id, and update a record owned by the caller.",
+        "All endpoints trap with clear errors when called by unauthenticated users or when accessing a record not owned by the caller.",
+        "API return types are usable by the current React Query pattern (query for lists/details, mutation for create/update)."
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "text": "Add a diamond assessment UI flow where authenticated users can create a new diamond record, enter carat and any other inputs needed for valuation, and see the resulting carat and estimated value displayed on-screen in English.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build app for diamond 💎 and to detect it and show it value and caret and connect with other platform for buyersJust"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The app includes a new navigation destination (separate from the existing trip/payout/profile/credits views) for “Diamonds” or equivalent.",
+        "Users can create a new diamond record via a form and see it appear in a “My Diamonds” list.",
+        "Each diamond record has a detail view (or expandable card) showing carat and estimated value clearly labeled in English.",
+        "Frontend uses the existing actor + React Query approach to call the new backend APIs."
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "text": "Implement a safe, user-transparent “detection/verification” experience that does not claim physical authenticity: allow users to attach an optional diamond photo (client-side only) and capture observation details, and label any outputs as an estimate (English UI copy).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build app for diamond 💎 and to detect it and show it value and caret and connect with other platform for buyersJust"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can optionally select/upload an image in the UI for a diamond record; the UI indicates the image is stored/used on the client side for viewing only (not as proof of authenticity).",
+        "Any computed or displayed value is labeled as an “Estimated value” and does not state or imply guaranteed diamond authenticity.",
+        "No external AI/LLM or third-party diamond verification service is required for this feature to function."
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "text": "Add a buyer connection feature that lets users see a curated list of buyer platforms (name + external URL) and open them, and optionally export/share a diamond record summary suitable for contacting buyers (English text).",
+      "target": "both",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "connect with other platform for buyersJust"
+        ]
+      },
+      "acceptanceCriteria": [
+        "Users can access a “Buyers” (or similar) section from the main authenticated navigation.",
+        "The buyer platform list is stored and served by the backend (so it can be updated later), and rendered by the frontend.",
+        "Clicking a buyer platform opens the external URL in a new tab.",
+        "The diamond detail view includes a “Copy summary” (or similar) action that copies a plain-English summary including carat and estimated value (when available)."
+      ]
+    },
+    {
+      "id": "REQ-13",
+      "text": "Update app branding in the authenticated header and the public welcome screen to reflect the diamond-focused app (name, tagline, and generated imagery), while keeping the existing Credits page content in English intact (including Henry English references).",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "Build app for diamond 💎 and to detect it and show it value and caret and connect with other platform for buyersJust"
+        ]
+      },
+      "acceptanceCriteria": [
+        "The header app name/logo and the AuthWelcome hero section no longer present the app as “SL GPS”/transport-focused and instead present diamond assessment/buyer discovery branding.",
+        "Main navigation includes the new Diamonds/Buyers destinations without breaking existing Profile and Credits access.",
+        "Credits page still contains the existing required Henry English text and the “Developer Story” section."
       ]
     }
   ],
   "constraints": [
-    "Frontend immutable paths must not be modified: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
-    "Keep changes within the existing single-page Credits flow (do not introduce new backend canister methods for static text)."
+    "Backend must remain a single Motoko actor in backend/main.mo (no additional backend services).",
+    "Do not edit files under frontend/src/components/ui (compose them as-is).",
+    "Do not edit immutable hook/bootstrap paths: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx.",
+    "Use English for all user-facing text.",
+    "Generated images must be stored under frontend/public/assets/generated and referenced directly from the frontend (do not route images through the backend)."
   ],
   "nonGoals": [
-    "Adding new navigation items or changing the existing routing/navigation structure.",
-    "Changing authentication, trip, or payouts behavior.",
-    "Adding third-party integrations or external content sources for the story."
+    "Do not claim or implement guaranteed real-world diamond authenticity verification; the app should present results as user-entered data and/or estimates.",
+    "No integration with third-party authentication providers (only Internet Identity).",
+    "No requirement to integrate with buyer platforms via their private APIs unless the user supplies specific API endpoints/keys; external links and share/export are sufficient.",
+    "No use of external databases or non-Motoko backend languages."
   ],
   "imageRequirements": {
-    "required": [],
+    "required": [
+      "Faceted diamond app logo on light background (diamond-logo.dim_512x512.png)",
+      "Faceted diamond app logo on dark background (diamond-logo-dark.dim_512x512.png)",
+      "Wide hero banner with close-up faceted diamond and subtle geometric pattern (diamond-hero.dim_1600x600.png)",
+      "Small set of 3 UI-safe diamond icons (diamond-icon-1.dim_128x128.png, diamond-icon-2.dim_128x128.png, diamond-icon-3.dim_128x128.png)"
+    ],
     "edits": []
   }
 }

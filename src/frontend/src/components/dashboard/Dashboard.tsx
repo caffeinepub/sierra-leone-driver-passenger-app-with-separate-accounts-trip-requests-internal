@@ -1,31 +1,26 @@
 import { useState } from 'react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import AppHeader from '../layout/AppHeader';
 import ProfileForm from '../profile/ProfileForm';
-import PassengerDashboard from './PassengerDashboard';
-import DriverDashboard from './DriverDashboard';
-import DriverPayoutsPanel from '../payouts/DriverPayoutsPanel';
+import DiamondsPanel from '../diamonds/DiamondsPanel';
+import BuyersPanel from '../buyers/BuyersPanel';
 import CreditsPage from '../../pages/CreditsPage';
 import type { UserProfile } from '../../backend';
-import { AccountType } from '../../backend';
 
 interface DashboardProps {
   userProfile: UserProfile;
 }
 
 export default function Dashboard({ userProfile }: DashboardProps) {
-  const [currentView, setCurrentView] = useState<'dashboard' | 'profile' | 'payouts' | 'credits'>('dashboard');
-
-  const isDriver = userProfile.accountType === AccountType.driver;
+  const [currentView, setCurrentView] = useState<'diamonds' | 'buyers' | 'profile' | 'credits'>('diamonds');
 
   return (
     <>
       <AppHeader onNavigate={setCurrentView} currentView={currentView} />
       
       <div className="page-container">
-        {currentView === 'dashboard' && (
-          isDriver ? <DriverDashboard /> : <PassengerDashboard />
-        )}
+        {currentView === 'diamonds' && <DiamondsPanel />}
+        
+        {currentView === 'buyers' && <BuyersPanel />}
         
         {currentView === 'profile' && (
           <div className="max-w-2xl mx-auto">
@@ -33,13 +28,7 @@ export default function Dashboard({ userProfile }: DashboardProps) {
           </div>
         )}
         
-        {currentView === 'payouts' && isDriver && (
-          <DriverPayoutsPanel />
-        )}
-        
-        {currentView === 'credits' && (
-          <CreditsPage />
-        )}
+        {currentView === 'credits' && <CreditsPage />}
       </div>
     </>
   );

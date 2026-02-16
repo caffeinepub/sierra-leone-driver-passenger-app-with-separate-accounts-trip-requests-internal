@@ -1,29 +1,102 @@
 {
   "kind": "spec_vs_diff_report",
   "version": "1.0",
-  "generatedAt": "2026-02-16T11:30:54.722Z",
-  "summary": "REQ-7 appears implemented by adding a new \"Developer Story\" section on the existing Credits page, including the required phrases about Henry English. No immutable frontend paths were modified per the provided diff summary. Some additional Credits page content and metadata files were updated beyond the explicit request.",
-  "missing_requirements": [],
-  "hallucinated_features": [
+  "generatedAt": "2026-02-16T17:52:23.829Z",
+  "summary": "The diff adds a diamond-focused frontend UI (Diamonds/Buyers panels, branding updates, copy-summary action) and introduces Motoko type definitions for diamond records and buyer platforms. However, key backend persistence/auth/CRUD requirements are not evidenced in the truncated backend diff, the required generated image assets are not shown as added, and the photo handling appears to upload/store the photo URL in backend records, conflicting with the client-side-only photo requirement.",
+  "missing_requirements": [
     {
-      "description": "Added new Credits page sections/content beyond the requested \"Developer Story\" (e.g., \"About This Application\" and \"Mission\" blocks with additional descriptive text).",
-      "reason": "BuildRequest only asks to add a clearly labeled \"Developer Story\" section while keeping existing Credits requirements intact; it does not request new sections or additional narrative content.",
+      "id": "REQ-8",
+      "requirement": "Backend exposes a stable, persistent store of per-user diamond assessment records (keyed by id, associated to caller Principal), survives canister upgrades, and prevents cross-user access.",
+      "reason": "backend/main.mo shows non-stable vars (e.g., nextDiamondId, diamondRecords = Map.empty) and type definitions, but the diff snippet does not show any stable storage, preupgrade/postupgrade migration, or access-control checks for diamond record reads/writes.",
       "evidence": [
-        "frontend/src/pages/CreditsPage.tsx"
+        "backend/main.mo"
       ]
     },
     {
-      "description": "Updated repository metadata/summaries (frontend-file-summaries.txt and project_state.json).",
-      "reason": "BuildRequest does not request updating project metadata/state files; these changes are not necessary to satisfy REQ-7.",
+      "id": "REQ-9",
+      "requirement": "Implement authenticated backend APIs to create, list, view-by-id, and update the caller’s diamond records; trap with clear errors when unauthenticated or accessing non-owned records.",
+      "reason": "The provided backend/main.mo diff portion includes type definitions but does not show any public shared functions for diamond record CRUD, nor explicit traps/errors for unauthenticated/unauthorized access.",
       "evidence": [
-        "frontend-file-summaries.txt",
-        "project_state.json"
+        "backend/main.mo"
+      ]
+    },
+    {
+      "id": "REQ-10",
+      "requirement": "Diamond assessment UI includes create + 'My Diamonds' list and a detail view/expandable view, and uses the existing actor + React Query approach to call backend APIs.",
+      "reason": "Create/list UI is present, but no detail-view fetch-by-id flow is evidenced (DiamondsPanel renders cards from a list; selectedDiamond state is unused). The diff summary does not show a React Query hook for fetching a single diamond by id or any UI that uses it.",
+      "evidence": [
+        "frontend/src/components/diamonds/DiamondsPanel.tsx",
+        "frontend/src/hooks/useQueries.ts (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-11",
+      "requirement": "Optional diamond photo must be client-side only (not uploaded/stored on server), with UI explicitly stating this; outputs labeled as estimates and no authenticity claims.",
+      "reason": "DiamondRecord includes a backend photoUrl field, and DiamondRecordForm passes photoUrl in the create mutation payload (suggesting it is sent to the backend), which conflicts with 'client-side only'. While the UI copy says photos are not uploaded, the code indicates the photo data URL is submitted.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+        "frontend/src/components/diamonds/DiamondPhotoPicker.tsx"
+      ]
+    },
+    {
+      "id": "REQ-12",
+      "requirement": "Buyer platform list must be stored and served by the backend and rendered by frontend; clicking opens URL in new tab; diamond detail view includes copy summary action.",
+      "reason": "Frontend renders buyer platforms via a query hook and opens links in a new tab, and diamond cards provide a copy-summary action. However, backend/main.mo only shows a hardcoded buyerPlatforms array and does not show an API that serves this list to the frontend.",
+      "evidence": [
+        "backend/main.mo",
+        "frontend/src/components/buyers/BuyersPanel.tsx"
+      ]
+    },
+    {
+      "requirement": "Add the required generated image assets under frontend/public/assets/generated (logo light/dark, hero banner, and 3 icons) and reference them directly from the frontend.",
+      "reason": "The frontend references /assets/generated/diamond-logo.dim_512x512.png and /assets/generated/diamond-hero.dim_1600x600.png, but the diff does not show any added files under frontend/public/assets/generated (no evidence the required images were actually added).",
+      "evidence": [
+        "frontend/src/components/auth/AuthWelcome.tsx",
+        "frontend/src/components/layout/AppHeader.tsx"
       ]
     }
   ],
-  "confidence": 0.78,
+  "hallucinated_features": [
+    {
+      "description": "UI copy claims users can connect with 'verified diamond buyers' / 'verified buyers'.",
+      "reason": "REQ-12 requests a curated list of buyer platforms and explicitly avoids implying real-world verification/authenticity guarantees. The copy implies verification of buyers, which is not requested and could be misleading.",
+      "evidence": [
+        "frontend/src/components/auth/AuthWelcome.tsx",
+        "frontend/src/components/buyers/BuyersPanel.tsx"
+      ]
+    },
+    {
+      "description": "Client-side photo is additionally stored in localStorage under a timestamped key on selection.",
+      "reason": "REQ-11 only requires client-side selection/viewing; persisting arbitrary timestamped photos to localStorage is not requested and may create uncontrolled storage growth.",
+      "evidence": [
+        "frontend/src/components/diamonds/DiamondPhotoPicker.tsx"
+      ]
+    },
+    {
+      "description": "Backend-driven 'generate diamond summary' mutation/hook used for copy-to-clipboard.",
+      "reason": "REQ-12 requires a 'Copy summary' action but does not require a backend endpoint to generate it (it could be composed client-side from already-fetched record data). This appears to add an extra backend capability (not inherently bad, but unrequested).",
+      "evidence": [
+        "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+        "frontend/src/hooks/useQueries.ts (truncated)",
+        "frontend-file-summaries.txt"
+      ]
+    }
+  ],
+  "confidence": 0.68,
   "changed_files": [
+    "backend/main.mo",
     "frontend-file-summaries.txt",
+    "frontend/src/App.tsx",
+    "frontend/src/components/auth/AuthWelcome.tsx",
+    "frontend/src/components/buyers/BuyersPanel.tsx",
+    "frontend/src/components/dashboard/Dashboard.tsx",
+    "frontend/src/components/diamonds/DiamondPhotoPicker.tsx",
+    "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+    "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+    "frontend/src/components/diamonds/DiamondsPanel.tsx",
+    "frontend/src/components/layout/AppHeader.tsx",
+    "frontend/src/hooks/useQueries.ts",
     "frontend/src/pages/CreditsPage.tsx",
     "project_state.json"
   ]

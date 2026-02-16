@@ -1,34 +1,136 @@
 {
   "kind": "coverage_report",
   "version": "1.0",
-  "generatedAt": "2026-02-16T11:30:54.726Z",
+  "generatedAt": "2026-02-16T17:52:23.833Z",
   "sources": {
     "buildRequest": true,
     "implementationPlan": true
   },
   "requirements": {
-    "total": 1,
-    "implemented": 1,
+    "total": 6,
+    "implemented": 4,
     "items": [
       {
-        "id": "REQ-7",
-        "summary": "Update the existing Credits page to include a clearly labeled \"Developer Story\" section with user-facing text in English that states: Henry English is the founder and technical manager of the app and that he believes in an Uber-style format.",
+        "id": "REQ-10",
+        "summary": "Add a diamond assessment UI flow where authenticated users can create a new diamond record, enter carat and any other inputs needed for valuation, and see the resulting carat and estimated value displayed on-screen in English.",
         "status": "implemented",
         "plannedFiles": [
-          "frontend/src/pages/CreditsPage.tsx"
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/diamonds/DiamondsPanel.tsx",
+          "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+          "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+          "frontend/src/components/dashboard/Dashboard.tsx",
+          "frontend/src/components/layout/AppHeader.tsx"
         ],
         "matchedFiles": [
-          "frontend/src/pages/CreditsPage.tsx"
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/diamonds/DiamondsPanel.tsx",
+          "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+          "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+          "frontend/src/components/dashboard/Dashboard.tsx",
+          "frontend/src/components/layout/AppHeader.tsx"
         ]
+      },
+      {
+        "id": "REQ-11",
+        "summary": "Implement a safe, user-transparent “detection/verification” experience that does not claim physical authenticity: allow users to attach an optional diamond photo (client-side only) and capture observation details, and label any outputs as an estimate (English UI copy).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/diamonds/DiamondPhotoPicker.tsx",
+          "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+          "frontend/src/components/diamonds/DiamondsPanel.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/diamonds/DiamondPhotoPicker.tsx",
+          "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+          "frontend/src/components/diamonds/DiamondsPanel.tsx"
+        ]
+      },
+      {
+        "id": "REQ-12",
+        "summary": "Add a buyer connection feature that lets users see a curated list of buyer platforms (name + external URL) and open them, and optionally export/share a diamond record summary suitable for contacting buyers (English text).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/buyers/BuyersPanel.tsx",
+          "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+          "frontend/src/components/dashboard/Dashboard.tsx",
+          "frontend/src/components/layout/AppHeader.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/hooks/useQueries.ts",
+          "frontend/src/components/buyers/BuyersPanel.tsx",
+          "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+          "frontend/src/components/dashboard/Dashboard.tsx",
+          "frontend/src/components/layout/AppHeader.tsx"
+        ]
+      },
+      {
+        "id": "REQ-13",
+        "summary": "Update app branding in the authenticated header and the public welcome screen to reflect the diamond-focused app (name, tagline, and generated imagery), while keeping the existing Credits page content in English intact (including Henry English references).",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/public/assets/generated/diamond-logo.dim_512x512.png",
+          "frontend/public/assets/generated/diamond-logo-dark.dim_512x512.png",
+          "frontend/public/assets/generated/diamond-hero.dim_1600x600.png",
+          "frontend/public/assets/generated/diamond-icon-1.dim_128x128.png",
+          "frontend/public/assets/generated/diamond-icon-2.dim_128x128.png",
+          "frontend/public/assets/generated/diamond-icon-3.dim_128x128.png",
+          "frontend/src/components/layout/AppHeader.tsx",
+          "frontend/src/components/auth/AuthWelcome.tsx",
+          "frontend/src/components/dashboard/Dashboard.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/public/assets/generated/diamond-logo.dim_512x512.png",
+          "frontend/public/assets/generated/diamond-logo-dark.dim_512x512.png",
+          "frontend/public/assets/generated/diamond-hero.dim_1600x600.png",
+          "frontend/src/components/layout/AppHeader.tsx",
+          "frontend/src/components/auth/AuthWelcome.tsx",
+          "frontend/src/components/dashboard/Dashboard.tsx"
+        ]
+      },
+      {
+        "id": "REQ-8",
+        "summary": "Add backend data models and persistence for a per-user diamond assessment feature, including storing diamond records and computed/entered results (at minimum: record id, owner Principal, createdAt timestamp, optional photo reference string, carat (optional), estimated value (optional), and free-text notes).",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
+      },
+      {
+        "id": "REQ-9",
+        "summary": "Implement backend APIs to create, list, view, and update the caller’s diamond assessment records.",
+        "status": "unknown",
+        "plannedFiles": [],
+        "matchedFiles": []
       }
     ]
   },
   "changedFiles": [
+    "backend/main.mo",
     "build-request.json",
-    "build-template/README.md",
+    "caffeine.lock.json",
     "feature_evidence.json",
     "frontend-file-summaries.txt",
     "frontend-implementation-plan.json",
+    "frontend/public/assets/generated/diamond-hero.dim_1600x600.png",
+    "frontend/public/assets/generated/diamond-icon-1.dim_128x128.png, diamond-icon-2.dim_128x128.png, diamond-icon-3.dim_128x128.png",
+    "frontend/public/assets/generated/diamond-logo-dark.dim_512x512.png",
+    "frontend/public/assets/generated/diamond-logo.dim_512x512.png",
+    "frontend/src/App.tsx",
+    "frontend/src/backend.d.ts",
+    "frontend/src/backend.ts",
+    "frontend/src/components/auth/AuthWelcome.tsx",
+    "frontend/src/components/buyers/BuyersPanel.tsx",
+    "frontend/src/components/dashboard/Dashboard.tsx",
+    "frontend/src/components/diamonds/DiamondPhotoPicker.tsx",
+    "frontend/src/components/diamonds/DiamondRecordCard.tsx",
+    "frontend/src/components/diamonds/DiamondRecordForm.tsx",
+    "frontend/src/components/diamonds/DiamondsPanel.tsx",
+    "frontend/src/components/layout/AppHeader.tsx",
+    "frontend/src/config.ts",
+    "frontend/src/declarations/backend.did.d.ts",
+    "frontend/src/declarations/backend.did.js",
+    "frontend/src/hooks/useQueries.ts",
     "frontend/src/pages/CreditsPage.tsx",
     "project_state.json",
     "scratch/component-selection.json",

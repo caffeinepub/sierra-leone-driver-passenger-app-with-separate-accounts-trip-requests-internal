@@ -19,6 +19,12 @@ export const UserRole = IDL.Variant({
   'user' : IDL.Null,
   'guest' : IDL.Null,
 });
+export const DiamondRecordInput = IDL.Record({
+  'carat' : IDL.Opt(IDL.Float64),
+  'photoUrl' : IDL.Opt(IDL.Text),
+  'notes' : IDL.Text,
+  'estimatedValue' : IDL.Opt(IDL.Nat),
+});
 export const Location = IDL.Record({
   'latitude' : IDL.Opt(IDL.Float64),
   'description' : IDL.Text,
@@ -33,7 +39,20 @@ export const UserProfile = IDL.Record({
   'accountType' : AccountType,
   'phone' : IDL.Text,
 });
+export const BuyerPlatform = IDL.Record({
+  'url' : IDL.Text,
+  'name' : IDL.Text,
+});
 export const Time = IDL.Int;
+export const DiamondRecord = IDL.Record({
+  'id' : IDL.Nat,
+  'owner' : IDL.Principal,
+  'carat' : IDL.Opt(IDL.Float64),
+  'createdAt' : Time,
+  'photoUrl' : IDL.Opt(IDL.Text),
+  'notes' : IDL.Text,
+  'estimatedValue' : IDL.Opt(IDL.Nat),
+});
 export const TripRequest = IDL.Record({
   'id' : IDL.Nat,
   'status' : TripStatus,
@@ -68,20 +87,29 @@ export const idlService = IDL.Service({
   'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
   'cancelTrip' : IDL.Func([IDL.Nat], [], []),
   'completeTrip' : IDL.Func([IDL.Nat], [], []),
+  'createDiamondRecord' : IDL.Func([DiamondRecordInput], [IDL.Nat], []),
   'createTripRequest' : IDL.Func([Location, Location, IDL.Nat], [IDL.Nat], []),
+  'generateDiamondSummary' : IDL.Func(
+      [IDL.Nat],
+      [IDL.Opt(IDL.Text)],
+      ['query'],
+    ),
   'getAllDrivers' : IDL.Func(
       [],
       [IDL.Vec(IDL.Tuple(IDL.Principal, UserProfile))],
       ['query'],
     ),
+  'getBuyerPlatforms' : IDL.Func([], [IDL.Vec(BuyerPlatform)], ['query']),
   'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
   'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+  'getDiamondRecord' : IDL.Func([IDL.Nat], [IDL.Opt(DiamondRecord)], ['query']),
   'getDriverEarnings' : IDL.Func([], [IDL.Nat], ['query']),
   'getDriverTrips' : IDL.Func(
       [IDL.Principal],
       [IDL.Vec(TripRequest)],
       ['query'],
     ),
+  'getMyDiamondRecords' : IDL.Func([], [IDL.Vec(DiamondRecord)], ['query']),
   'getOpenTrips' : IDL.Func([], [IDL.Vec(TripRequest)], ['query']),
   'getPassengerTrips' : IDL.Func(
       [IDL.Principal],
@@ -100,6 +128,7 @@ export const idlService = IDL.Service({
   'registerUser' : IDL.Func([AccountType, IDL.Text, IDL.Text], [], []),
   'requestPayout' : IDL.Func([IDL.Nat], [IDL.Nat], []),
   'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+  'updateDiamondRecord' : IDL.Func([IDL.Nat, DiamondRecordInput], [], []),
   'updatePayoutStatus' : IDL.Func([IDL.Nat, PayoutStatus], [], []),
   'updateProfile' : IDL.Func([IDL.Text, IDL.Text], [], []),
 });
@@ -118,6 +147,12 @@ export const idlFactory = ({ IDL }) => {
     'user' : IDL.Null,
     'guest' : IDL.Null,
   });
+  const DiamondRecordInput = IDL.Record({
+    'carat' : IDL.Opt(IDL.Float64),
+    'photoUrl' : IDL.Opt(IDL.Text),
+    'notes' : IDL.Text,
+    'estimatedValue' : IDL.Opt(IDL.Nat),
+  });
   const Location = IDL.Record({
     'latitude' : IDL.Opt(IDL.Float64),
     'description' : IDL.Text,
@@ -132,7 +167,17 @@ export const idlFactory = ({ IDL }) => {
     'accountType' : AccountType,
     'phone' : IDL.Text,
   });
+  const BuyerPlatform = IDL.Record({ 'url' : IDL.Text, 'name' : IDL.Text });
   const Time = IDL.Int;
+  const DiamondRecord = IDL.Record({
+    'id' : IDL.Nat,
+    'owner' : IDL.Principal,
+    'carat' : IDL.Opt(IDL.Float64),
+    'createdAt' : Time,
+    'photoUrl' : IDL.Opt(IDL.Text),
+    'notes' : IDL.Text,
+    'estimatedValue' : IDL.Opt(IDL.Nat),
+  });
   const TripRequest = IDL.Record({
     'id' : IDL.Nat,
     'status' : TripStatus,
@@ -167,24 +212,37 @@ export const idlFactory = ({ IDL }) => {
     'assignCallerUserRole' : IDL.Func([IDL.Principal, UserRole], [], []),
     'cancelTrip' : IDL.Func([IDL.Nat], [], []),
     'completeTrip' : IDL.Func([IDL.Nat], [], []),
+    'createDiamondRecord' : IDL.Func([DiamondRecordInput], [IDL.Nat], []),
     'createTripRequest' : IDL.Func(
         [Location, Location, IDL.Nat],
         [IDL.Nat],
         [],
+      ),
+    'generateDiamondSummary' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Opt(IDL.Text)],
+        ['query'],
       ),
     'getAllDrivers' : IDL.Func(
         [],
         [IDL.Vec(IDL.Tuple(IDL.Principal, UserProfile))],
         ['query'],
       ),
+    'getBuyerPlatforms' : IDL.Func([], [IDL.Vec(BuyerPlatform)], ['query']),
     'getCallerUserProfile' : IDL.Func([], [IDL.Opt(UserProfile)], ['query']),
     'getCallerUserRole' : IDL.Func([], [UserRole], ['query']),
+    'getDiamondRecord' : IDL.Func(
+        [IDL.Nat],
+        [IDL.Opt(DiamondRecord)],
+        ['query'],
+      ),
     'getDriverEarnings' : IDL.Func([], [IDL.Nat], ['query']),
     'getDriverTrips' : IDL.Func(
         [IDL.Principal],
         [IDL.Vec(TripRequest)],
         ['query'],
       ),
+    'getMyDiamondRecords' : IDL.Func([], [IDL.Vec(DiamondRecord)], ['query']),
     'getOpenTrips' : IDL.Func([], [IDL.Vec(TripRequest)], ['query']),
     'getPassengerTrips' : IDL.Func(
         [IDL.Principal],
@@ -203,6 +261,7 @@ export const idlFactory = ({ IDL }) => {
     'registerUser' : IDL.Func([AccountType, IDL.Text, IDL.Text], [], []),
     'requestPayout' : IDL.Func([IDL.Nat], [IDL.Nat], []),
     'saveCallerUserProfile' : IDL.Func([UserProfile], [], []),
+    'updateDiamondRecord' : IDL.Func([IDL.Nat, DiamondRecordInput], [], []),
     'updatePayoutStatus' : IDL.Func([IDL.Nat, PayoutStatus], [], []),
     'updateProfile' : IDL.Func([IDL.Text, IDL.Text], [], []),
   });
