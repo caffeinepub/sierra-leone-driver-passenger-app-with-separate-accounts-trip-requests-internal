@@ -1,2 +1,3 @@
-# sierra-leone-driver-passenger-app-with-separate-accounts-trip-requests-internal
-Exported from Caffeine project: Sierra Leone Driver &amp; Passenger App with Separate Accounts, Trip Requests, Internal Payouts, and Developer Credits
+## 
+
+To run app build and run docker image: `docker build -t app . docker run -it --network host app`

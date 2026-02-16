@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 5,
+  "summary": "Build a Sierra Leone GPS/map app for drivers and passengers with separate account types, ride/map functionality, payouts, and an in-app document crediting developer Henry English.",
+  "architectural_notes": [],
+  "known_issues": [],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-implement-internet-identity-sign-in-and-let-each-authenticated-user-choose-and-persist-an-account-type-driver-or-passenger-the-app-must-maintain-separate-profile-details-for-each-type-passenger-full-name-phone-driver-full-name-phone-vehicle-type-vehicle-plate-number-users-must-be-able-to-view-and-edit-their-own-profile-after-selecting-a-role",
+      "title": "Implement Internet Identity sign-in and let each authenticated user choose and persist an account type: Driver or Passenger. The app must maintain separate profile details for each type (Passenger: full name, phone; Driver: full name, phone, vehicle type, vehicle plate number). Users must be able to view and edit their own profile after selecting a role.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-provide-a-trip-request-flow-between-passengers-and-drivers-using-a-sierra-leone-focused-location-input-that-does-not-rely-on-real-gps-maps-passengers-must-be-able-to-create-a-trip-request-with-pickup-and-dropoff-text-fields-plus-optional-latitude-longitude-fields-and-drivers-must-be-able-to-browse-open-requests-and-accept-one-the-system-must-track-trip-status-open-accepted-completed-cancelled-and-show-appropriate-actions-per-role",
+      "title": "Provide a trip/request flow between passengers and drivers using a Sierra Leone-focused location input that does not rely on real GPS/maps. Passengers must be able to create a trip request with pickup and dropoff (text fields plus optional latitude/longitude fields), and drivers must be able to browse open requests and accept one. The system must track trip status (Open, Accepted, Completed, Cancelled) and show appropriate actions per role.",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-implement-a-simple-internal-payout-earnings-ledger-for-drivers-when-a-driver-marks-a-trip-as-completed-the-trip-can-include-a-fare-amount-entered-by-passenger-at-request-creation-or-by-driver-at-completion-choose-one-consistent-flow-and-the-driver-s-earnings-balance-increases-by-that-amount-drivers-must-be-able-to-view-total-earnings-a-transaction-history-and-create-a-payout-request-that-reduces-their-available-balance-and-records-payout-status-requested-approved-rejected-paid",
+      "title": "Implement a simple internal payout/earnings ledger for drivers. When a driver marks a trip as Completed, the trip can include a fare amount (entered by passenger at request creation or by driver at completion; choose one consistent flow) and the driver’s earnings balance increases by that amount. Drivers must be able to view total earnings, a transaction history, and create a payout request that reduces their available balance and records payout status (Requested, Approved, Rejected, Paid).",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-a-credits-document-page-with-user-facing-text-in-english-that-explicitly-names-the-developer-as-henry-english-and-includes-the-phrase-a-sierra-leone-living-legend-this-page-must-be-accessible-from-the-main-navigation-for-both-drivers-and-passengers",
+      "title": "Add a Credits/Document page with user-facing text in English that explicitly names the developer as “Henry English” and includes the phrase “a Sierra Leone living legend”. This page must be accessible from the main navigation for both drivers and passengers.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-create-a-coherent-visual-theme-and-layout-for-the-app-typography-spacing-component-styling-and-navigation-and-apply-it-consistently-across-authentication-profile-trip-flow-payouts-and-credits-screens-avoid-a-blue-purple-dominant-palette",
+      "title": "Create a coherent visual theme and layout for the app (typography, spacing, component styling, and navigation) and apply it consistently across authentication, profile, trip flow, payouts, and credits screens. Avoid a blue/purple-dominant palette.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-generated-static-image-assets-and-use-them-in-the-ui-store-generated-images-under-frontend-public-assets-generated-and-reference-them-directly-from-the-frontend-do-not-route-images-through-the-backend",
+      "title": "Add generated static image assets and use them in the UI. Store generated images under frontend/public/assets/generated and reference them directly from the frontend (do not route images through the backend).",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-existing-credits-page-to-include-a-clearly-labeled-developer-story-section-with-user-facing-text-in-english-that-states-henry-english-is-the-founder-and-technical-manager-of-the-app-and-that-he-believes-in-an-uber-style-format",
+      "title": "Update the existing Credits page to include a clearly labeled \"Developer Story\" section with user-facing text in English that states: Henry English is the founder and technical manager of the app and that he believes in an Uber-style format.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Create Sierra Leone GPS/map app experience for drivers and passengers (location/map core functionality)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-2",
+      "summary": "Support separate account types and profiles for drivers vs passengers (separate account details)",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-3",
+      "summary": "Implement payouts/payment flow for drivers",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Add a document/about/credits section naming the developer as 'Henry English' and describing him as 'a Sierra Leone living legend'",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add a developer story/about section stating Henry English is the founder and technical manager and that he believes in an Uber-style format",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "gameProjectType": "none",
+  "projectName": "Sierra Leone Driver & Passenger App with Separate Accounts, Trip Requests, Internal Payouts, and Developer Credits",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

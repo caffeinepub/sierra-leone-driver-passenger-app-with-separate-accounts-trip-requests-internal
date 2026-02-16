@@ -1,0 +1,39 @@
+{
+  "kind": "build_request",
+  "title": "Add a developer story to the Credits page",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-7",
+      "text": "Update the existing Credits page to include a clearly labeled \"Developer Story\" section with user-facing text in English that states: Henry English is the founder and technical manager of the app and that he believes in an Uber-style format.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-4"
+        ],
+        "quotes": [
+          "Yes I want me the developer story behind the app that say Henry english the founder and technical manager who believes in uber format"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On the Credits page, a new section titled \"Developer Story\" is visible to all users.",
+        "The Developer Story text explicitly includes: \"Henry English\" and describes him as \"the founder and technical manager\".",
+        "The Developer Story text explicitly communicates that he \"believes in an Uber-style format\" (wording may be lightly edited for grammar, but meaning must be preserved).",
+        "Existing Credits requirements remain intact (the page still names \"Henry English\" and includes the phrase \"A Sierra Leone Living Legend\")."
+      ]
+    }
+  ],
+  "constraints": [
+    "Frontend immutable paths must not be modified: frontend/src/hooks/useInternetIdentity.ts, frontend/src/hooks/useInternetIdentity.tsx, frontend/src/hooks/useActor.ts, frontend/src/main.tsx, frontend/src/components/ui.",
+    "Keep changes within the existing single-page Credits flow (do not introduce new backend canister methods for static text)."
+  ],
+  "nonGoals": [
+    "Adding new navigation items or changing the existing routing/navigation structure.",
+    "Changing authentication, trip, or payouts behavior.",
+    "Adding third-party integrations or external content sources for the story."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

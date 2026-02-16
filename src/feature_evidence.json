@@ -1,0 +1,24 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-existing-credits-page-to-include-a-clearly-labeled-developer-story-section-with-user-facing-text-in-english-that-states-henry-english-is-the-founder-and-technical-manager-of-the-app-and-that-he-believes-in-an-uber-style-format",
+      "featureTitle": "Update the existing Credits page to include a clearly labeled \"Developer Story\" section with user-facing text in English that states: Henry English is the founder and technical manager of the app and that he believes in an Uber-style format.",
+      "files": [
+        "frontend/src/pages/CreditsPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    }
+  ]
+}

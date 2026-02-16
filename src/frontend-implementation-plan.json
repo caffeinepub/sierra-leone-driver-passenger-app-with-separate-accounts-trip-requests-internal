@@ -1,0 +1,24 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Add Developer Story section to Credits page",
+  "requirements": [
+    {
+      "id": "REQ-7",
+      "summary": "Add a clearly labeled Developer Story section to the existing Credits page with the required Henry English and Uber-style format messaging while preserving existing credits text.",
+      "acceptanceCriteria": [
+        "On the Credits page, a new section titled \"Developer Story\" is visible to all users.",
+        "The Developer Story text explicitly includes: \"Henry English\" and describes him as \"the founder and technical manager\".",
+        "The Developer Story text explicitly communicates that he \"believes in an Uber-style format\" (wording may be lightly edited for grammar, but meaning must be preserved).",
+        "Existing Credits requirements remain intact (the page still names \"Henry English\" and includes the phrase \"A Sierra Leone Living Legend\")."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CreditsPage.tsx",
+          "operation": "modify",
+          "description": "Within the existing Credits page layout, add a new, clearly labeled \"Developer Story\" section containing user-facing English text stating that Henry English is the founder and technical manager of the app and that he believes in an Uber-style format, while preserving existing visible credits content (including \"Henry English\" and \"A Sierra Leone Living Legend\"). Use existing shadcn-ui Card primitives already used on the page for consistent styling; verify the component's usage instructions before implementing."
+        }
+      ]
+    }
+  ]
+}

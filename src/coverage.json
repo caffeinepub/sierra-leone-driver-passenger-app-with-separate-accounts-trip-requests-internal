@@ -1,0 +1,38 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-16T11:30:54.726Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 1,
+    "implemented": 1,
+    "items": [
+      {
+        "id": "REQ-7",
+        "summary": "Update the existing Credits page to include a clearly labeled \"Developer Story\" section with user-facing text in English that states: Henry English is the founder and technical manager of the app and that he believes in an Uber-style format.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CreditsPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CreditsPage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "build-template/README.md",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/pages/CreditsPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}
